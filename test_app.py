@@ -4,7 +4,7 @@ def test_home_page():
     client = app.test_client()
     response = client.get("/")
     assert response.status_code == 200
-    assert b"Total & Average" in response.data
+    assert b"Grade" in response.data
 
 def test_health_endpoint():
     client = app.test_client()
@@ -12,9 +12,10 @@ def test_health_endpoint():
     assert response.status_code == 200
     assert response.json["status"] == "healthy"
 
-def test_calculation():
+def test_calculation_with_grade():
     client = app.test_client()
-    response = client.post("/calculate", json={"marks": [80, 90, 70]})
+    response = client.post("/calculate", json={"marks": [85, 95, 90]})
     assert response.status_code == 200
-    assert response.json["total"] == 240
-    assert response.json["average"] == 80.0
+    assert response.json["total"] == 270
+    assert response.json["average"] == 90.0
+    assert response.json["grade"] == "S"
