@@ -4,7 +4,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def home():
-    return "Student Grade Calculator - Push 1 (Total & Average)"
+    return "Student Grade Calculator - Push 2 (Total, Average & Grade)"
 
 @app.route("/calculate", methods=["POST"])
 def calculate():
@@ -19,9 +19,24 @@ def calculate():
     total_marks = sum(marks)
     average_marks = total_marks / len(marks)
     
+    # Grade logic based on standard academic brackets
+    if average_marks >= 90:
+        grade = "S"
+    elif average_marks >= 80:
+        grade = "A"
+    elif average_marks >= 70:
+        grade = "B"
+    elif average_marks >= 60:
+        grade = "C"
+    elif average_marks >= 50:
+        grade = "D"
+    else:
+        grade = "F"
+        
     return jsonify({
         "total": total_marks,
-        "average": average_marks
+        "average": average_marks,
+        "grade": grade
     })
 
 @app.route("/health")
